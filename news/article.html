@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#61CEA8">
+  <title>动态详情 - 村庄改造吧</title>
+
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/pages.css">
+</head>
+<body>
+
+  <!-- ========== Top App Bar ========== -->
+  <header class="app-bar">
+    <a href="../" class="app-bar__brand">
+      <div class="app-bar__logo">
+        <img src="../assets/images/icons/common_123_icon.png" alt="村庄改造吧" class="app-bar__logo-img">
+      </div>
+      <span class="app-bar__title">村庄改造吧</span>
+    </a>
+
+    <button class="app-bar__menu-btn md-state-layer" id="menuToggle" aria-label="打开菜单" aria-expanded="false">
+      <span class="material-icons">menu</span>
+    </button>
+
+    <nav class="app-bar__nav" id="navLinks">
+      <a href="../" class="app-bar__nav-link md-state-layer">
+        <span class="material-icons">home</span>
+        <span>首页</span>
+      </a>
+      <a href="./" class="app-bar__nav-link app-bar__nav-link--active md-state-layer">
+        <span class="material-icons">newspaper</span>
+        <span>动态</span>
+      </a>
+      <a href="../join/" class="app-bar__nav-link md-state-layer">
+        <span class="material-icons">group_add</span>
+        <span>加入</span>
+      </a>
+      <a href="../docs/" class="app-bar__nav-link md-state-layer">
+        <span class="material-icons">menu_book</span>
+        <span>文档</span>
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <article class="news-detail">
+      <div class="container">
+        <a href="./" class="news-detail__back">
+          <span class="material-icons">arrow_back</span>
+          返回动态列表
+        </a>
+
+        <div class="news-detail__header" id="newsDetailHeader">
+          <div style="text-align:center;padding:var(--space-10);">
+            <p class="body-large" style="color:var(--md-on-surface-variant);">加载中...</p>
+          </div>
+        </div>
+
+        <div class="news-detail__content" id="newsDetailContent">
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <!-- ========== Footer ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__brand">村庄改造吧</div>
+          <p class="footer__desc">Minecraft 村庄改造、城市建设与虚拟文明玩家社区。</p>
+          <div class="footer__social">
+            <a href="https://tieba.baidu.com/f?kw=%E6%9D%91%E5%BA%84%E6%94%B9%E9%80%A0" class="footer__social-link" target="_blank" rel="noopener" aria-label="贴吧">
+              <span class="material-icons" style="font-size:20px;">forum</span>
+            </a>
+            <a href="https://qm.qq.com/q/ZxU9BXbhWU" class="footer__social-link" target="_blank" rel="noopener" aria-label="QQ群">
+              <span class="material-icons" style="font-size:20px;">chat</span>
+            </a>
+            <a href="https://space.bilibili.com/202536136" class="footer__social-link" target="_blank" rel="noopener" aria-label="B站">
+              <span class="material-icons" style="font-size:20px;">smart_display</span>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__heading">快速链接</h4>
+          <ul class="footer__links">
+            <li><a href="../" class="footer__link">首页</a></li>
+            <li><a href="./" class="footer__link">动态</a></li>
+            <li><a href="../join/" class="footer__link">加入引导</a></li>
+            <li><a href="../docs/" class="footer__link">文档中心</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__heading">社区资源</h4>
+          <ul class="footer__links">
+            <li><a href="https://tieba.baidu.com/f?kw=%E6%9D%91%E5%BA%84%E6%94%B9%E9%80%A0" class="footer__link" target="_blank" rel="noopener">贴吧</a></li>
+            <li><a href="https://qm.qq.com/q/ZxU9BXbhWU" class="footer__link" target="_blank" rel="noopener">QQ群</a></li>
+            <li><a href="https://space.bilibili.com/202536136" class="footer__link" target="_blank" rel="noopener">B站</a></li>
+            <li><a href="https://github.com/RealSuQingqing/RealSuQingqing.github.io/issues" class="footer__link" target="_blank" rel="noopener">反馈问题</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__heading">联系我们</h4>
+          <ul class="footer__links">
+            <li><a href="mailto:2639131152@qq.com" class="footer__link">
+              <span class="material-icons" style="font-size:16px;">email</span>
+              2639131152@qq.com
+            </a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 村庄改造吧社区</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/news-detail.js"></script>
+</body>
+</html>

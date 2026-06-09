@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="村庄改造吧 - Minecraft村庄改造、城市建设、虚拟文明玩家社区">
+  <meta name="theme-color" content="#61CEA8">
+  <title>村庄改造吧 - Village Reform Bar</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body>
+
+  <!-- ========== Top App Bar ========== -->
+  <header class="app-bar">
+    <a href="./" class="app-bar__brand">
+      <div class="app-bar__logo">
+        <img src="./assets/images/icons/common_123_icon.png" alt="村庄改造吧" class="app-bar__logo-img">
+      </div>
+      <span class="app-bar__title">村庄改造吧</span>
+    </a>
+
+    <button class="app-bar__menu-btn md-state-layer" id="menuToggle" aria-label="打开菜单" aria-expanded="false">
+      <span class="material-icons">menu</span>
+    </button>
+
+    <nav class="app-bar__nav" id="navLinks">
+      <a href="./" class="app-bar__nav-link app-bar__nav-link--active md-state-layer">
+        <span class="material-icons">home</span>
+        <span>首页</span>
+      </a>
+      <a href="./news/" class="app-bar__nav-link md-state-layer">
+        <span class="material-icons">newspaper</span>
+        <span>动态</span>
+      </a>
+      <a href="./join/" class="app-bar__nav-link md-state-layer">
+        <span class="material-icons">group_add</span>
+        <span>加入</span>
+      </a>
+      <a href="./docs/" class="app-bar__nav-link md-state-layer">
+        <span class="material-icons">menu_book</span>
+        <span>文档</span>
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ========== Hero Section ========== -->
+    <section class="hero">
+      <div class="hero__container container">
+        <!-- 左侧内容 -->
+        <div class="hero__content">
+          <h1 class="hero__title display-large" id="typewriter-title">
+            <span id="typewriter-text"></span><span class="typewriter-cursor">|</span>
+          </h1>
+          <p class="hero__subtitle body-large">
+            Minecraft 村庄改造、城市建设与虚拟文明玩家社区
+          </p>
+          <div class="hero__actions">
+            <a href="./join/" class="btn btn--filled btn--large md-state-layer">
+              <span class="material-icons">group_add</span>
+              加入我们
+            </a>
+            <a href="./docs/" class="btn btn--outlined btn--large md-state-layer">
+              <span class="material-icons">menu_book</span>
+              了解更多
+            </a>
+          </div>
+        </div>
+
+        <!-- 右侧轮播 -->
+        <div class="hero__carousel" id="heroCarousel">
+          <div class="hero__carousel-stack" id="carouselStack">
+            <!-- 由 JS 从 carousel-images.json 动态生成 -->
+          </div>
+          <div class="hero__carousel-dots" id="carouselDots"></div>
+        </div>
+      </div>
+
+      <a href="#features" class="hero__scroll-down" aria-label="向下滚动">
+        <span class="material-icons" style="font-size:32px;">keyboard_arrow_down</span>
+      </a>
+    </section>
+
+    <!-- ========== 玩法速览 ========== -->
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section__header">
+          <h2 class="section__title display-small">探索我们的玩法</h2>
+          <p class="section__subtitle body-large">这是我们温馨社区建设的方向~</p>
+        </div>
+
+        <div class="grid grid--3">
+          <!-- 卡片1: 村庄改革 -->
+          <article class="card--elevated feature-card animate-in">
+            <div class="card__icon">
+              <span class="material-icons">home</span>
+            </div>
+            <div class="card__body" style="text-align:center;">
+              <h3 class="card__title">村庄改革</h3>
+              <p class="card__text">本吧传统文化。改造原版村庄，为其编写剧情、设定和故事。</p>
+            </div>
+            <div class="card__actions" style="justify-content:center;border:none;">
+              <a href="./docs/#village-reform" class="btn btn--text md-state-layer">
+                了解更多
+                <span class="material-icons">arrow_forward</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- 卡片2: 城市建设 -->
+          <article class="card--elevated feature-card animate-in">
+            <div class="card__icon" style="background-color:var(--md-secondary-container);">
+              <span class="material-icons">apartment</span>
+            </div>
+            <div class="card__body" style="text-align:center;">
+              <h3 class="card__title">城市建设</h3>
+              <p class="card__text">玩家们在MC中建设的城市各种各样，各种年代、各种背景应有尽有。</p>
+            </div>
+            <div class="card__actions" style="justify-content:center;border:none;">
+              <a href="./docs/#city-building" class="btn btn--text md-state-layer">
+                了解更多
+                <span class="material-icons">arrow_forward</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- 卡片3: 虚拟文明 -->
+          <article class="card--elevated feature-card animate-in">
+            <div class="card__icon" style="background-color:#D0E0F5;">
+              <span class="material-icons">public</span>
+            </div>
+            <div class="card__body" style="text-align:center;">
+              <h3 class="card__title">虚拟文明</h3>
+              <p class="card__text">你可以从一个村庄开始慢慢发展，也可以用宏大的世界观震撼人心。</p>
+            </div>
+            <div class="card__actions" style="justify-content:center;border:none;">
+              <a href="./docs/#virtual-civilization" class="btn btn--text md-state-layer">
+                了解更多
+                <span class="material-icons">arrow_forward</span>
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 精选项目展示 ========== -->
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section__header">
+          <h2 class="section__title display-small">精选项目展示</h2>
+          <p class="section__subtitle body-large">来自社区成员的优秀作品</p>
+        </div>
+
+        <div class="grid grid--3" id="projects-container">
+          <div style="text-align:center;padding:var(--space-8);grid-column:1/-1;">
+            <p class="body-medium" style="color:var(--md-on-surface-variant);">加载中...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 社区动态预览 ========== -->
+    <section class="section">
+      <div class="container">
+        <div class="section__header">
+          <h2 class="section__title display-small">社区动态</h2>
+          <p class="section__subtitle body-large">最新动态与公告</p>
+        </div>
+
+        <div class="card--outlined news-preview" id="news-preview">
+          <div style="text-align:center;padding:var(--space-8);">
+            <p class="body-medium" style="color:var(--md-on-surface-variant);">加载中...</p>
+          </div>
+        </div>
+
+        <div class="news-preview__more">
+          <a href="./news/" class="btn btn--outlined md-state-layer">
+            <span class="material-icons">newspaper</span>
+            查看全部动态
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== Footer ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__brand">村庄改造吧</div>
+          <p class="footer__desc">Minecraft 村庄改造、城市建设与虚拟文明玩家社区。</p>
+          <div class="footer__social">
+            <a href="https://tieba.baidu.com/f?kw=%E6%9D%91%E5%BA%84%E6%94%B9%E9%80%A0" class="footer__social-link" target="_blank" rel="noopener" aria-label="贴吧">
+              <span class="material-icons" style="font-size:20px;">forum</span>
+            </a>
+            <a href="https://qm.qq.com/q/ZxU9BXbhWU" class="footer__social-link" target="_blank" rel="noopener" aria-label="QQ群">
+              <span class="material-icons" style="font-size:20px;">chat</span>
+            </a>
+            <a href="https://space.bilibili.com/202536136" class="footer__social-link" target="_blank" rel="noopener" aria-label="B站">
+              <span class="material-icons" style="font-size:20px;">smart_display</span>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__heading">快速链接</h4>
+          <ul class="footer__links">
+            <li><a href="./" class="footer__link">首页</a></li>
+            <li><a href="./news/" class="footer__link">动态</a></li>
+            <li><a href="./join/" class="footer__link">加入引导</a></li>
+            <li><a href="./docs/" class="footer__link">文档中心</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__heading">社区资源</h4>
+          <ul class="footer__links">
+            <li><a href="https://tieba.baidu.com/f?kw=%E6%9D%91%E5%BA%84%E6%94%B9%E9%80%A0" class="footer__link" target="_blank" rel="noopener">贴吧</a></li>
+            <li><a href="https://qm.qq.com/q/ZxU9BXbhWU" class="footer__link" target="_blank" rel="noopener">QQ群</a></li>
+            <li><a href="https://space.bilibili.com/202536136" class="footer__link" target="_blank" rel="noopener">B站</a></li>
+            <li><a href="https://github.com/RealSuQingqing/RealSuQingqing.github.io/issues" class="footer__link" target="_blank" rel="noopener">反馈问题</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__heading">联系我们</h4>
+          <ul class="footer__links">
+            <li><a href="mailto:2639131152@qq.com" class="footer__link">
+              <span class="material-icons" style="font-size:16px;">email</span>
+              2639131152@qq.com
+            </a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 村庄改造吧社区</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/main.js"></script>
+  <script>
+    // ============================================
+    // 首页新闻预览加载 - 从 news/content/ 动态获取
+    // ============================================
+    (async function () {
+      const container = document.getElementById('news-preview');
+      if (!container) return;
+
+      try {
+        // 动态扫描 news/content/ 目录获取所有 .json 文件
+        async function scanNewsDirectory() {
+          try {
+            const response = await fetch('news/content/');
+            if (response.ok) {
+              const text = await response.text();
+              const matches = text.match(/href="([^"]+\.json)"/g);
+              if (matches && matches.length > 0) {
+                return matches.map(m => m.replace(/href="(.+)"/, '$1'));
+              }
+            }
+          } catch (e) {
+            console.log('目录扫描失败');
+          }
+          return [];
+        }
+
+        const newsFiles = await scanNewsDirectory();
+
+        // 并行加载所有新闻元数据
+        const newsItems = await Promise.all(
+          newsFiles.map(async (filename) => {
+            try {
+              const response = await fetch('news/content/' + filename);
+              if (!response.ok) return null;
+              const meta = await response.json();
+              meta.id = filename.replace('.json', '');
+              return meta;
+            } catch (e) {
+              return null;
+            }
+          })
+        );
+
+        // 过滤掉加载失败的并排序（日期从新到旧）
+        const validNews = newsItems.filter(item => item !== null);
+        validNews.sort((a, b) => new Date(b.date) - new Date(a.date));
+        const latest = validNews.slice(0, 3);
+
+        if (latest.length === 0) {
+          container.innerHTML = '<p style="text-align:center;padding:var(--space-8);color:var(--md-on-surface-variant);">暂无内容</p>';
+          return;
+        }
+
+        container.innerHTML = latest.map(item => `
+          <a href="news/article.html?article=${encodeURIComponent(item.id)}" class="list-item" style="text-decoration:none;">
+            <div class="list-item__icon">
+              <span class="material-icons">article</span>
+            </div>
+            <div class="list-item__content">
+              <h4 class="list-item__title">${item.title}</h4>
+              <p class="list-item__subtitle">${item.date} · ${item.profile || ''}</p>
+            </div>
+            <div class="list-item__trailing">
+              <span class="material-icons">chevron_right</span>
+            </div>
+          </a>
+        `).join('');
+      } catch (error) {
+        container.innerHTML = '<p style="text-align:center;padding:var(--space-8);color:var(--md-on-surface-variant);">加载失败</p>';
+      }
+    })();
+
+    // ============================================
+    // 精选项目展示 - 从 assets/data/projects/ 动态获取
+    // ============================================
+    (async function () {
+      const container = document.getElementById('projects-container');
+      if (!container) return;
+
+      try {
+        // 动态扫描项目目录，获取所有 .json 文件
+        async function scanProjectDirectory() {
+          // 尝试通过 fetch 目录列表（某些服务器支持）
+          // 如果不支持，则使用预定义的文件列表作为回退
+          const predefinedFiles = [
+            'MoniCup.json',
+            'ScreenDoor.json'
+          ];
+          
+          try {
+            const response = await fetch('assets/data/projects/');
+            if (response.ok) {
+              const text = await response.text();
+              // 解析目录列表中的 .json 文件
+              const matches = text.match(/href="([^"]+\.json)"/g);
+              if (matches && matches.length > 0) {
+                return matches.map(m => m.replace(/href="(.+)"/, '$1'));
+              }
+            }
+          } catch (e) {
+            console.log('目录扫描失败，使用预定义列表');
+          }
+          
+          return predefinedFiles;
+        }
+
+        const projectFiles = await scanProjectDirectory();
+
+        // 并行加载所有项目数据
+        const projectItems = await Promise.all(
+          projectFiles.map(async (filename) => {
+            try {
+              const response = await fetch('assets/data/projects/' + filename);
+              if (!response.ok) return null;
+              const data = await response.json();
+              data.id = filename.replace('.json', '');
+              return data;
+            } catch (e) {
+              console.warn('加载项目失败:', filename, e);
+              return null;
+            }
+          })
+        );
+
+        // 过滤掉加载失败的
+        let validProjects = projectItems.filter(item => item !== null);
+
+        if (validProjects.length === 0) {
+          container.innerHTML = '<p style="text-align:center;padding:var(--space-8);color:var(--md-on-surface-variant);grid-column:1/-1;">暂无项目</p>';
+          return;
+        }
+
+        // 排序：先按 num 排序，num 相同则按标题字母顺序
+        validProjects.sort((a, b) => {
+          if (a.num !== b.num) return a.num - b.num;
+          return (a.title || '').localeCompare(b.title || '', 'zh-CN');
+        });
+
+        // 检查图片是否存在，决定使用卡片形式还是列表形式
+        const projectsWithImageCheck = await Promise.all(
+          validProjects.map(async (item) => {
+            const imageUrl = `assets/data/projects/${item.id}.png`;
+            try {
+              const response = await fetch(imageUrl, { method: 'HEAD' });
+              return { ...item, hasImage: response.ok };
+            } catch (e) {
+              return { ...item, hasImage: false };
+            }
+          })
+        );
+
+        // 如果所有项目都没有图片，使用列表布局
+        const hasAnyImage = projectsWithImageCheck.some(p => p.hasImage);
+        if (!hasAnyImage) {
+          container.className = 'list-container';
+          container.style.display = 'flex';
+          container.style.flexDirection = 'column';
+          container.style.gap = 'var(--space-3)';
+        }
+
+        container.innerHTML = projectsWithImageCheck.map(item => {
+          const tagsHtml = Array.isArray(item.tag)
+            ? item.tag.map(t => `<span class="chip chip--assist" style="font-size:12px;">${t}</span>`).join('')
+            : '';
+
+          // 有图片时使用卡片形式
+          if (item.hasImage) {
+            const imageUrl = `assets/data/projects/${item.id}.png`;
+            return `
+              <article class="card--elevated project-card">
+                <div class="card__image-wrap">
+                  <img src="${imageUrl}" alt="${item.title}" class="card__image" loading="lazy">
+                </div>
+                <div class="card__body">
+                  <h3 class="card__title">${item.title}</h3>
+                  <div class="card__meta">
+                    <span class="card__meta-item">
+                      <span class="material-icons">person</span>
+                      ${item.author}
+                    </span>
+                    ${tagsHtml}
+                  </div>
+                  <p class="card__text">${item.description}</p>
+                  <div class="card__actions">
+                    <a href="${item.link}" class="btn btn--text md-state-layer" target="_blank" rel="noopener">
+                      <span class="material-icons">visibility</span>
+                      查看详情
+                    </a>
+                  </div>
+                </div>
+              </article>
+            `;
+          }
+
+          // 无图片时使用列表项形式
+          return `
+            <a href="${item.link}" class="list-item" style="text-decoration:none;" target="_blank" rel="noopener">
+              <div class="list-item__icon">
+                <span class="material-icons">folder</span>
+              </div>
+              <div class="list-item__content">
+                <h4 class="list-item__title">${item.title}</h4>
+                <p class="list-item__subtitle">${item.author} · ${item.description}</p>
+              </div>
+              <div class="list-item__trailing">
+                <span class="material-icons">chevron_right</span>
+              </div>
+            </a>
+          `;
+        }).join('');
+      } catch (error) {
+        console.error('项目加载失败:', error);
+        container.innerHTML = '<p style="text-align:center;padding:var(--space-8);color:var(--md-on-surface-variant);grid-column:1/-1;">加载失败，请稍后重试</p>';
+      }
+    })();
+
+    // ============================================
+    // 打字机效果 - JavaScript 实现
+    // ============================================
+    (function () {
+      const textElement = document.getElementById('typewriter-text');
+      const cursorElement = document.querySelector('.typewriter-cursor');
+      if (!textElement) return;
+
+      const text = '欢迎来到\n村庄改造吧';
+      const lines = text.split('\n');
+      let lineIndex = 0;
+      let charIndex = 0;
+      let currentHtml = '';
+
+      // 配置参数
+      const MIN_SPEED = 100;  // 最小间隔(ms)
+      const MAX_SPEED = 150;  // 最大间隔(ms)
+
+      function getRandomSpeed() {
+        return Math.random() * (MAX_SPEED - MIN_SPEED) + MIN_SPEED;
+      }
+
+      function typeNextChar() {
+        if (lineIndex >= lines.length) {
+          // 打字完成，添加完成类
+          if (cursorElement) {
+            cursorElement.classList.add('typewriter-cursor--finished');
+          }
+          return;
+        }
+
+        const currentLine = lines[lineIndex];
+
+        if (charIndex < currentLine.length) {
+          // 继续打字
+          const char = currentLine[charIndex];
+          
+          // 处理第二行（村庄改造吧）使用强调色
+          if (lineIndex === 1 && charIndex === 0) {
+            currentHtml += '<span class="hero__title-accent">';
+          }
+          
+          currentHtml += char;
+          textElement.innerHTML = currentHtml;
+          
+          if (lineIndex === 1 && charIndex === currentLine.length - 1) {
+            currentHtml += '</span>';
+            textElement.innerHTML = currentHtml;
+          }
+
+          charIndex++;
+          setTimeout(typeNextChar, getRandomSpeed());
+        } else {
+          // 当前行完成，换行
+          if (lineIndex < lines.length - 1) {
+            currentHtml += '<br>';
+            textElement.innerHTML = currentHtml;
+          }
+          lineIndex++;
+          charIndex = 0;
+          setTimeout(typeNextChar, getRandomSpeed());
+        }
+      }
+
+      // 延迟开始打字效果
+      setTimeout(typeNextChar, 500);
+    })();
+
+    // ============================================
+    // 英雄区轮播 - 读取 carousel-images.json
+    // ============================================
+    (function () {
+      const carousel = document.getElementById('heroCarousel');
+      if (!carousel) return;
+
+      const stack = document.getElementById('carouselStack');
+      const dotsContainer = document.getElementById('carouselDots');
+      let currentIndex = 0;
+      let items = [];
+      let autoPlayTimer = null;
+      const AUTO_PLAY_INTERVAL = 4000;
+      const IMAGE_DIR = 'assets/images/hero-carousel/';
+
+      // 从 JSON 加载数据并动态生成卡片
+      async function loadCarousel() {
+        try {
+          const response = await fetch(IMAGE_DIR + 'carousel-images.json');
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+          items = await response.json();
+
+          // 动态生成卡片
+          stack.innerHTML = '';
+          items.forEach((item, index) => {
+            const imgSrc = item['image-source'].startsWith('http')
+              ? item['image-source']
+              : IMAGE_DIR + item['image-source'];
+
+            const card = document.createElement('div');
+            card.className = 'hero__carousel-card' + (index === 0 ? ' hero__carousel-card--active' : '');
+            card.dataset.index = index;
+            if (index === 1) card.classList.add('hero__carousel-card--next');
+            card.innerHTML = `
+              <img src="${imgSrc}" alt="${item['carousel-title']}" class="hero__carousel-img" loading="${index === 0 ? 'eager' : 'lazy'}">
+              <div class="hero__carousel-info">
+                <span class="hero__carousel-tag">${item['carousel-tag']}</span>
+                <p class="hero__carousel-title">${item['carousel-title']}</p>
+              </div>
+            `;
+            stack.appendChild(card);
+          });
+
+          // 创建指示点
+          if (dotsContainer) {
+            dotsContainer.innerHTML = '';
+            items.forEach((_, i) => {
+              const dot = document.createElement('button');
+              dot.className = 'hero__carousel-dot' + (i === 0 ? ' hero__carousel-dot--active' : '');
+              dot.setAttribute('aria-label', '切换到第' + (i + 1) + '张');
+              dot.addEventListener('click', () => goToSlide(i));
+              dotsContainer.appendChild(dot);
+            });
+          }
+
+          startAutoPlay();
+        } catch (error) {
+          console.error('加载轮播数据失败:', error);
+          stack.innerHTML = '<p style="text-align:center;padding:var(--space-8);color:var(--md-on-surface-variant);">轮播加载失败</p>';
+        }
+      }
+
+      function goToSlide(index) {
+        const allCards = stack.querySelectorAll('.hero__carousel-card');
+        const total = allCards.length;
+        if (total === 0) return;
+
+        currentIndex = ((index % total) + total) % total;
+
+        allCards.forEach((card, i) => {
+          card.classList.remove('hero__carousel-card--active', 'hero__carousel-card--prev', 'hero__carousel-card--next');
+          if (i === currentIndex) {
+            card.classList.add('hero__carousel-card--active');
+          } else if (i === (currentIndex - 1 + total) % total) {
+            card.classList.add('hero__carousel-card--prev');
+          } else if (i === (currentIndex + 1) % total) {
+            card.classList.add('hero__carousel-card--next');
+          }
+        });
+
+        const dots = dotsContainer.querySelectorAll('.hero__carousel-dot');
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('hero__carousel-dot--active', i === currentIndex);
+        });
+      }
+
+      function nextSlide() {
+        goToSlide(currentIndex + 1);
+      }
+
+      function startAutoPlay() {
+        stopAutoPlay();
+        autoPlayTimer = setInterval(nextSlide, AUTO_PLAY_INTERVAL);
+      }
+
+      function stopAutoPlay() {
+        if (autoPlayTimer) {
+          clearInterval(autoPlayTimer);
+          autoPlayTimer = null;
+        }
+      }
+
+      carousel.addEventListener('mouseenter', stopAutoPlay);
+      carousel.addEventListener('mouseleave', startAutoPlay);
+
+      let touchStartX = 0;
+      carousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        stopAutoPlay();
+      }, { passive: true });
+
+      carousel.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) {
+            goToSlide(currentIndex + 1);
+          } else {
+            goToSlide(currentIndex - 1);
+          }
+        }
+        startAutoPlay();
+      }, { passive: true });
+
+      loadCarousel();
+    })();
+  </script>
+</body>
+</html>

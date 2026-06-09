@@ -1,0 +1,458 @@
+/* ============================================
+   村庄改造吧官网 - 全局样式 & Design Tokens
+   Material Design 3 轻量实现
+   ============================================ */
+
+/* ---------- Material Icons ---------- */
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+/* ---------- 方舟像素字体 ---------- */
+@font-face {
+  font-family: 'Ark Pixel';
+  src: url('../ark-pixel-12px-monospaced-zh_cn.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================
+   1. Design Tokens (CSS Variables)
+   ============================================ */
+:root {
+  /* --- Material 3 核心色彩 --- */
+  --md-primary: #61CEA8;
+  --md-on-primary: #FFFFFF;
+  --md-primary-container: #B8EAD9;
+  --md-on-primary-container: #1E2A28;
+  --md-secondary: #5A6E69;
+  --md-on-secondary: #FFFFFF;
+  --md-secondary-container: #D0E8E0;
+  --md-on-secondary-container: #1E2A28;
+  --md-tertiary: #5BA0F5;
+  --md-on-tertiary: #FFFFFF;
+  --md-surface: #F9FBF8;
+  --md-surface-variant: #E8F0EC;
+  --md-on-surface: #1E2A28;
+  --md-on-surface-variant: #5A6E69;
+  --md-outline: #A8C4BA;
+  --md-outline-variant: #D0E0D8;
+  --md-error: #B3261E;
+  --md-success: #2E7D32;
+  --md-warning: #F5A65B;
+
+  /* --- Minecraft 主题扩展 --- */
+  --mc-grass: #5D8C47;
+  --mc-dirt: #8B6914;
+  --mc-sky: #87CEEB;
+  --mc-stone: #7D7D7D;
+  --mc-lava: #FF6D00;
+
+  /* --- 状态色彩 --- */
+  --state-hover: rgba(97, 206, 168, 0.08);
+  --state-focus: rgba(97, 206, 168, 0.12);
+  --state-pressed: rgba(97, 206, 168, 0.16);
+
+  /* --- 排版 --- */
+  --font-sans: 'Noto Sans SC', 'Inter', 'Roboto', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-serif: 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', 'STSong', serif;
+  --font-display: 'Press Start 2P', 'Inter', monospace;
+
+  /* --- 形状 --- */
+  --shape-small: 8px;
+  --shape-medium: 12px;
+  --shape-large: 16px;
+  --shape-xl: 28px;
+  --shape-full: 50%;
+
+  /* --- 间距 (8dp grid) --- */
+  --space-0: 0px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* --- 动效 --- */
+  --ease-standard: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-decelerate: cubic-bezier(0.0, 0.0, 0.2, 1);
+  --ease-accelerate: cubic-bezier(0.4, 0.0, 1, 1);
+  --duration-short: 150ms;
+  --duration-medium: 300ms;
+  --duration-long: 500ms;
+  --transition-standard: all var(--duration-medium) var(--ease-standard);
+  --transition-transform: transform var(--duration-medium) var(--ease-standard);
+  --transition-shadow: box-shadow var(--duration-medium) var(--ease-standard);
+
+  /* --- 布局 --- */
+  --content-max-width: 1200px;
+  --app-bar-height: 64px;
+  --app-bar-offset: 76px; /* 胶囊导航栏顶部偏移 + 高度 */
+}
+
+/* ============================================
+   2. Reset & Base
+   ============================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--md-on-surface);
+  background-color: var(--md-surface);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 鼠标指针 - Minecraft 风格 */
+/*
+body {
+  cursor: url('../cursors/default.cur'), auto;
+}
+a, button, .btn, .card--elevated, .chip, .list-item {
+  cursor: url('../cursors/sword.ani'), pointer;
+}
+*/
+
+/* ============================================
+   3. Typography (Material Type Scale)
+   ============================================ */
+.display-large {
+  font-size: 57px;
+  font-weight: 400;
+  line-height: 64px;
+  letter-spacing: -0.25px;
+}
+
+.display-medium {
+  font-size: 45px;
+  font-weight: 400;
+  line-height: 52px;
+}
+
+.display-small {
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 44px;
+}
+
+.headline-large {
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 40px;
+}
+
+.headline-medium {
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 36px;
+}
+
+.headline-small {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+}
+
+.title-large {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+.title-medium {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+}
+
+.title-small {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}
+
+.body-large {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+
+.body-medium {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+}
+
+.body-small {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0.4px;
+}
+
+.label-large {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}
+
+.label-medium {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+}
+
+.label-small {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================
+   4. Utility Classes
+   ============================================ */
+.container {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+.section {
+  padding: var(--space-12) 0;
+}
+
+.section--alt {
+  background-color: var(--md-surface-variant);
+}
+
+.section__header {
+  text-align: center;
+  margin-bottom: var(--space-10);
+}
+
+.section__title {
+  color: var(--md-on-surface);
+  margin-bottom: var(--space-2);
+  font-family: var(--font-serif);
+}
+
+.section__subtitle {
+  color: var(--md-on-surface-variant);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Grid 布局工具 */
+.grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.grid--2 {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.grid--3 {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.grid--4 {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+/* Flex 布局工具 */
+.flex {
+  display: flex;
+}
+
+.flex--center {
+  align-items: center;
+  justify-content: center;
+}
+
+.flex--between {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex--wrap {
+  flex-wrap: wrap;
+}
+
+.gap--1 { gap: var(--space-1); }
+.gap--2 { gap: var(--space-2); }
+.gap--3 { gap: var(--space-3); }
+.gap--4 { gap: var(--space-4); }
+.gap--6 { gap: var(--space-6); }
+.gap--8 { gap: var(--space-8); }
+
+/* 文字颜色 */
+.text-primary { color: var(--md-on-surface); }
+.text-secondary { color: var(--md-on-surface-variant); }
+.text-accent { color: var(--md-primary); }
+
+/* 图片 */
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+.img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 屏幕阅读器专用 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* 动画 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: fadeInUp var(--duration-long) var(--ease-decelerate) both;
+}
+
+/* ============================================
+   5. Responsive
+   ============================================ */
+@media (max-width: 768px) {
+  :root {
+    --space-12: 32px;
+    --space-16: 40px;
+  }
+
+  .section {
+    padding: var(--space-8) 0;
+  }
+
+  .display-large { font-size: 36px; line-height: 44px; }
+  .display-medium { font-size: 32px; line-height: 40px; }
+  .display-small { font-size: 28px; line-height: 36px; }
+  .headline-large { font-size: 24px; line-height: 32px; }
+  .headline-medium { font-size: 22px; line-height: 28px; }
+  .headline-small { font-size: 20px; line-height: 26px; }
+
+  .grid--2, .grid--3, .grid--4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   页面切换加载动画
+   ============================================ */
+.page-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--md-surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+}
+
+.page-loader--active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.page-loader__spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--md-primary-container);
+  border-top-color: var(--md-primary);
+  border-radius: 50%;
+  animation: page-loader-spin 0.8s linear infinite;
+}
+
+.page-loader__text {
+  margin-top: var(--space-4);
+  color: var(--md-on-surface-variant);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@keyframes page-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 骨架屏样式 */
+.page-loader__skeleton {
+  width: 200px;
+  max-width: 80vw;
+}
+
+.page-loader__skeleton-line {
+  height: 12px;
+  background: linear-gradient(90deg, var(--md-surface-variant) 25%, var(--md-surface) 50%, var(--md-surface-variant) 75%);
+  background-size: 200% 100%;
+  border-radius: 6px;
+  margin-bottom: var(--space-2);
+  animation: page-loader-shimmer 1.5s infinite;
+}
+
+.page-loader__skeleton-line:nth-child(1) { width: 100%; }
+.page-loader__skeleton-line:nth-child(2) { width: 80%; animation-delay: 0.1s; }
+.page-loader__skeleton-line:nth-child(3) { width: 60%; animation-delay: 0.2s; }
+
+@keyframes page-loader-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
