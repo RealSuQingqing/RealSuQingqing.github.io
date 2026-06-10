@@ -245,51 +245,22 @@
   <script src="assets/js/main.js"></script>
   <script>
     // ============================================
-    // 首页新闻预览加载 - 从 news/content/ 动态获取
+    // 首页新闻预览加载 - 从 news-index.json 预定义列表获取
     // ============================================
     (async function () {
       const container = document.getElementById('news-preview');
       if (!container) return;
 
       try {
-        // 动态扫描 news/content/ 目录获取所有 .json 文件
-        async function scanNewsDirectory() {
-          try {
-            const response = await fetch('news/content/');
-            if (response.ok) {
-              const text = await response.text();
-              const matches = text.match(/href="([^"]+\.json)"/g);
-              if (matches && matches.length > 0) {
-                return matches.map(m => m.replace(/href="(.+)"/, '$1'));
-              }
-            }
-          } catch (e) {
-            console.log('目录扫描失败');
-          }
-          return [];
-        }
-
-        const newsFiles = await scanNewsDirectory();
-
-        // 并行加载所有新闻元数据
-        const newsItems = await Promise.all(
-          newsFiles.map(async (filename) => {
-            try {
-              const response = await fetch('news/content/' + filename);
-              if (!response.ok) return null;
-              const meta = await response.json();
-              meta.id = filename.replace('.json', '');
-              return meta;
-            } catch (e) {
-              return null;
-            }
-          })
-        );
-
-        // 过滤掉加载失败的并排序（日期从新到旧）
-        const validNews = newsItems.filter(item => item !== null);
-        validNews.sort((a, b) => new Date(b.date) - new Date(a.date));
-        const latest = validNews.slice(0, 3);
+        // 从 news-index.json 加载预定义新闻列表
+        const response = await fetch('news/news-index.json');
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        const data = await response.json();
+        
+        // 按日期从新到旧排序
+        const newsList = data.news || [];
+        newsList.sort((a, b) => new Date(b.date) - new Date(a.date));
+        const latest = newsList.slice(0, 3);
 
         if (latest.length === 0) {
           container.innerHTML = '<p style="text-align:center;padding:var(--space-8);color:var(--md-on-surface-variant);">暂无内容</p>';
@@ -297,7 +268,7 @@
         }
 
         container.innerHTML = latest.map(item => `
-          <a href="news/article.html?article=${encodeURIComponent(item.id)}" class="list-item" style="text-decoration:none;">
+          <a href="news/article.html?article=${encodeURIComponent(item.file.replace('.json', ''))}" class="list-item" style="text-decoration:none;">
             <div class="list-item__icon">
               <span class="material-icons">article</span>
             </div>
@@ -316,59 +287,19 @@
     })();
 
     // ============================================
-    // 精选项目展示 - 从 assets/data/projects/ 动态获取
+    // 精选项目展示 - 从 project-index.json 预定义列表获取
     // ============================================
     (async function () {
       const container = document.getElementById('projects-container');
       if (!container) return;
 
       try {
-        // 动态扫描项目目录，获取所有 .json 文件
-        async function scanProjectDirectory() {
-          // 尝试通过 fetch 目录列表（某些服务器支持）
-          // 如果不支持，则使用预定义的文件列表作为回退
-          const predefinedFiles = [
-            'MoniCup.json',
-            'ScreenDoor.json'
-          ];
-          
-          try {
-            const response = await fetch('assets/data/projects/');
-            if (response.ok) {
-              const text = await response.text();
-              // 解析目录列表中的 .json 文件
-              const matches = text.match(/href="([^"]+\.json)"/g);
-              if (matches && matches.length > 0) {
-                return matches.map(m => m.replace(/href="(.+)"/, '$1'));
-              }
-            }
-          } catch (e) {
-            console.log('目录扫描失败，使用预定义列表');
-          }
-          
-          return predefinedFiles;
-        }
-
-        const projectFiles = await scanProjectDirectory();
-
-        // 并行加载所有项目数据
-        const projectItems = await Promise.all(
-          projectFiles.map(async (filename) => {
-            try {
-              const response = await fetch('assets/data/projects/' + filename);
-              if (!response.ok) return null;
-              const data = await response.json();
-              data.id = filename.replace('.json', '');
-              return data;
-            } catch (e) {
-              console.warn('加载项目失败:', filename, e);
-              return null;
-            }
-          })
-        );
-
-        // 过滤掉加载失败的
-        let validProjects = projectItems.filter(item => item !== null);
+        // 从 project-index.json 加载预定义项目列表
+        const response = await fetch('assets/data/projects/project-index.json');
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        const data = await response.json();
+        
+        let validProjects = data.projects || [];
 
         if (validProjects.length === 0) {
           container.innerHTML = '<p style="text-align:center;padding:var(--space-8);color:var(--md-on-surface-variant);grid-column:1/-1;">暂无项目</p>';
@@ -381,21 +312,8 @@
           return (a.title || '').localeCompare(b.title || '', 'zh-CN');
         });
 
-        // 检查图片是否存在，决定使用卡片形式还是列表形式
-        const projectsWithImageCheck = await Promise.all(
-          validProjects.map(async (item) => {
-            const imageUrl = `assets/data/projects/${item.id}.png`;
-            try {
-              const response = await fetch(imageUrl, { method: 'HEAD' });
-              return { ...item, hasImage: response.ok };
-            } catch (e) {
-              return { ...item, hasImage: false };
-            }
-          })
-        );
-
-        // 如果所有项目都没有图片，使用列表布局
-        const hasAnyImage = projectsWithImageCheck.some(p => p.hasImage);
+        // 检查是否有图片
+        const hasAnyImage = validProjects.some(p => p.image);
         if (!hasAnyImage) {
           container.className = 'list-container';
           container.style.display = 'flex';
@@ -403,14 +321,14 @@
           container.style.gap = 'var(--space-3)';
         }
 
-        container.innerHTML = projectsWithImageCheck.map(item => {
+        container.innerHTML = validProjects.map(item => {
           const tagsHtml = Array.isArray(item.tag)
             ? item.tag.map(t => `<span class="chip chip--assist" style="font-size:12px;">${t}</span>`).join('')
             : '';
 
           // 有图片时使用卡片形式
-          if (item.hasImage) {
-            const imageUrl = `assets/data/projects/${item.id}.png`;
+          if (item.image) {
+            const imageUrl = `assets/data/projects/${item.image}`;
             return `
               <article class="card--elevated project-card">
                 <div class="card__image-wrap">

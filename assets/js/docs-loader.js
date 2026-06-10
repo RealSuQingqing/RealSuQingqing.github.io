@@ -132,12 +132,15 @@
                '<div class="bili-player-loader__icon"><span class="material-icons">play_circle</span></div>' +
                '<span class="bili-player-loader__text">正在加载视频...</span>' +
                '<div class="bili-player-loader__bar"></div></div>' +
-               '<iframe id="' + iframeId + '" src="https://player.bilibili.com/player.html?bvid=' + bvid + '&page=1&high_quality=1&danmaku=0" ' +
+               '<iframe id="' + iframeId + '" src="https://player.bilibili.com/player.html?bvid=' + bvid + '&page=1&high_quality=1&danmaku=0&autoplay=0" ' +
                'allowfullscreen="true" scrolling="no" frameborder="no" ' +
                'onload="document.getElementById(\'' + loaderId + '\').classList.add(\'bili-player-loader--hidden\');' +
                'this.classList.add(\'bili-player--loaded\');"></iframe></div>';
       });
 
+      // 图片居中语法: !![alt](url) 或 ![alt](url){center}
+      text = text.replace(/!!\[([^\]]*)\]\(([^)]+)\)/g, '<div style="text-align:center;"><img src="$2" alt="$1" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;display:inline-block;"></div>');
+      text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)\{center\}/g, '<div style="text-align:center;"><img src="$2" alt="$1" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;display:inline-block;"></div>');
       text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;">');
       text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
       text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');

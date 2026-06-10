@@ -5,7 +5,7 @@
 2月5日晚20点，亚罕冬季联合运动会开幕式开始，康普利特的建设者路人炳为我们带来了壮观的开幕式。
 ![bilibili](BV1SaFezbEqo)
 
-![images/YaHanDongJiLianHeYunDongHuiShiLu_1.webp](images/YaHanDongJiLianHeYunDongHuiShiLu_1.webp)
+!![images/YaHanDongJiLianHeYunDongHuiShiLu_1.webp](images/YaHanDongJiLianHeYunDongHuiShiLu_1.webp)
 *本届冬运会会徽以像素风格呈现，融合了冰雪元素与运动精神，象征着各文明在严寒中迸发的热情与活力。*
 
 ![images/YaHanDongJiLianHeYunDongHuiShiLu_2.webp](images/YaHanDongJiLianHeYunDongHuiShiLu_2.webp)

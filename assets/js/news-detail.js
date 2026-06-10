@@ -144,19 +144,35 @@
                '<div class="bili-player-loader__icon"><span class="material-icons">play_circle</span></div>' +
                '<span class="bili-player-loader__text">正在加载视频...</span>' +
                '<div class="bili-player-loader__bar"></div></div>' +
-               '<iframe id="' + iframeId + '" src="https://player.bilibili.com/player.html?bvid=' + bvid + '&page=1&high_quality=1&danmaku=0" ' +
+               '<iframe id="' + iframeId + '" src="https://player.bilibili.com/player.html?bvid=' + bvid + '&page=1&high_quality=1&danmaku=0&autoplay=0" ' +
                'allowfullscreen="true" scrolling="no" frameborder="no" ' +
                'onload="document.getElementById(\'' + loaderId + '\').classList.add(\'bili-player-loader--hidden\');' +
                'this.classList.add(\'bili-player--loaded\');"></iframe></div>';
       });
 
       // 图片 ![alt](url) - 将相对路径转换为基于 content/ 目录的绝对路径
+      // 支持居中语法: !![alt](url) 或 ![alt](url){center}
+      text = text.replace(/!!\[([^\]]*)\]\(([^)]+)\)/g, function(match, alt, url) {
+        // 居中图片语法 !![]()
+        if (url.match(/^https?:\/\//)) {
+          return '<div style="text-align:center;"><img src="' + url + '" alt="' + alt + '" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;display:inline-block;"></div>';
+        }
+        const resolvedUrl = 'content/' + url;
+        return '<div style="text-align:center;"><img src="' + resolvedUrl + '" alt="' + alt + '" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;display:inline-block;"></div>';
+      });
+      text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)\{center\}/g, function(match, alt, url) {
+        // 居中图片语法 ![](){center}
+        if (url.match(/^https?:\/\//)) {
+          return '<div style="text-align:center;"><img src="' + url + '" alt="' + alt + '" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;display:inline-block;"></div>';
+        }
+        const resolvedUrl = 'content/' + url;
+        return '<div style="text-align:center;"><img src="' + resolvedUrl + '" alt="' + alt + '" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;display:inline-block;"></div>';
+      });
       text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, function(match, alt, url) {
-        // 如果路径已经是绝对路径（以 http/https 开头），直接使用
+        // 普通图片语法 ![]()
         if (url.match(/^https?:\/\//)) {
           return '<img src="' + url + '" alt="' + alt + '" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;">';
         }
-        // 将相对路径转换为基于 content/ 目录的路径
         const resolvedUrl = 'content/' + url;
         return '<img src="' + resolvedUrl + '" alt="' + alt + '" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;">';
       });

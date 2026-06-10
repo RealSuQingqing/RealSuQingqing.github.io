@@ -1037,8 +1037,6 @@
   opacity: 1;
   transform: translateY(0);
 }
-  margin: var(--space-8) 0;
-}
 
 .docs-markdown img {
   max-width: 100%;

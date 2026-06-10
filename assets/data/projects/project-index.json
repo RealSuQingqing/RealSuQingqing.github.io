@@ -1,0 +1,22 @@
+{
+    "projects": [
+        {
+            "title": "\"模拟杯\"村改大赛",
+            "num": 1,
+            "author": "村庄改造吧",
+            "tag": ["村庄改革"],
+            "description": "联合苦力怕论坛&新模拟大都市mod开发组举办村改比赛，让村改走进每个玩家的mod里。",
+            "link": "https://www.bilibili.com/video/BV1kNrTBtEeJ/",
+            "image": "MoniCup.webp"
+        },
+        {
+            "title": "机械动力屏蔽门建造",
+            "num": 1,
+            "author": "古怪、苏晴晴等",
+            "tag": ["游戏教程"],
+            "description": "改吧吧友合作研发机械动力屏蔽门，在b站共获得八万多播放。",
+            "link": "https://www.bilibili.com/video/BV1MEBvBrEna/",
+            "image": "ScreenDoor.webp"
+        }
+    ]
+}
