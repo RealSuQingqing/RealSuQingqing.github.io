@@ -25,32 +25,21 @@
 
       this.showLoader();
       try {
-        // 1. 扫描 content 目录，获取所有 .json 文件列表
-        const jsonFiles = await this.scanContentDirectory();
+        // 从 news-index.json 加载预定义新闻列表
+        const response = await fetch('news-index.json');
+        if (!response.ok) {
+          throw new Error('无法加载新闻索引');
+        }
+        const data = await response.json();
+        this.allNews = data.news || [];
 
-        // 2. 并行加载所有 JSON 元数据
-        const newsItems = await Promise.all(
-          jsonFiles.map(async (filename) => {
-            try {
-              const response = await fetch(this.contentPath + filename);
-              if (!response.ok) return null;
-              const meta = await response.json();
-              // 文件名（不含扩展名）作为 ID
-              meta.id = filename.replace('.json', '');
-              // 封面图路径（如果有）
-              meta.image = this.contentPath + meta.id + '.png';
-              return meta;
-            } catch (e) {
-              console.warn('加载动态元数据失败:', filename, e);
-              return null;
-            }
-          })
-        );
+        // 处理每条新闻的 ID 和图片路径
+        this.allNews.forEach(item => {
+          item.id = item.file.replace('.json', '');
+          item.image = this.contentPath + item.id + '.png';
+        });
 
-        // 过滤掉加载失败的
-        this.allNews = newsItems.filter(item => item !== null);
-
-        // 3. 排序：日期从新到旧，同一天按标题首字母
+        // 排序：日期从新到旧，同一天按标题首字母
         this.allNews.sort((a, b) => {
           const dateA = new Date(a.date);
           const dateB = new Date(b.date);
@@ -73,39 +62,6 @@
           </div>
         `;
       }
-    }
-
-    async scanContentDirectory() {
-      // 方法：尝试获取目录列表
-      // 由于前端无法直接读取目录，我们使用以下策略：
-      // 1. 尝试获取一个已知的索引文件（如果存在）
-      // 2. 如果失败，使用预定义的文件名列表（基于已知的文章）
-      // 3. 或者通过 fetch 探测常见文件名
-
-      try {
-        // 尝试获取目录列表（某些服务器支持）
-        const response = await fetch(this.contentPath);
-        if (response.ok) {
-          const text = await response.text();
-          // 解析 HTML 目录列表，提取 .json 文件名
-          const matches = text.match(/href="([^"]+\.json)"/g);
-          if (matches && matches.length > 0) {
-            return matches.map(m => m.replace('href="', '').replace('"', ''));
-          }
-        }
-      } catch (e) {
-        // 目录列表不可用，使用备用方案
-      }
-
-      // 备用方案：预定义的文件名列表
-      // 这些文件名基于 content 目录下已知的文章
-      return [
-        'world-tree-expo.json',
-        'monicup-design-competition.json',
-        'winter-sports-games.json',
-        'monicup-architecture-competition.json',
-        'new-year-message.json'
-      ];
     }
 
     buildTagFilters() {

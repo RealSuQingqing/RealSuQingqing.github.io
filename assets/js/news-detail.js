@@ -225,25 +225,26 @@
       this.showLoader();
 
       try {
-        const basePath = `content/${this.articleId}`;
+        // 从 news-index.json 加载文章列表
+        const indexRes = await fetch('news-index.json');
+        if (!indexRes.ok) {
+          throw new Error('无法加载动态索引');
+        }
+        const indexData = await indexRes.json();
+        const newsList = indexData.news || [];
 
-        // 并行加载 JSON 和 MD 文件
-        const [jsonRes, mdRes] = await Promise.all([
-          fetch(`${basePath}.json`),
-          fetch(`${basePath}.md`)
-        ]);
-
-        if (!jsonRes.ok) {
+        // 查找当前文章
+        const meta = newsList.find(item => item.file.replace('.json', '') === this.articleId);
+        if (!meta) {
           throw new Error(`文章 "${this.articleId}" 不存在或已被删除。`);
         }
 
-        const meta = await jsonRes.json();
+        // 加载 Markdown 内容
+        const mdRes = await fetch(`content/${this.articleId}.md`);
         const mdContent = mdRes.ok ? await mdRes.text() : '';
 
-        // 更新页面标题
-        document.title = `${meta.title} - 村庄改造吧`;
-        const descEl = document.querySelector('meta[name="description"]');
-        if (descEl) descEl.setAttribute('content', meta.profile || meta.title);
+        // 更新页面标题和 meta 信息
+        this.updatePageMeta(meta);
 
         this.renderHeader(meta);
         this.renderContent(mdContent, meta);
@@ -268,6 +269,61 @@
       if (loader) {
         loader.classList.remove('page-loader--active');
         document.body.style.overflow = '';
+      }
+    }
+
+    updatePageMeta(meta) {
+      const currentUrl = `https://realsuqingqing.github.io/news/article.html?article=${this.articleId}`;
+      
+      // 更新标题
+      document.title = `${meta.title} - 村庄改造吧`;
+      
+      // 更新 meta description
+      const descEl = document.querySelector('meta[name="description"]');
+      if (descEl) descEl.setAttribute('content', meta.profile || meta.title);
+      
+      // 更新 Canonical URL
+      const canonicalEl = document.getElementById('canonicalLink');
+      if (canonicalEl) canonicalEl.setAttribute('href', currentUrl);
+      
+      // 更新 Open Graph
+      const ogUrl = document.getElementById('ogUrl');
+      const ogTitle = document.getElementById('ogTitle');
+      const ogDesc = document.getElementById('ogDesc');
+      if (ogUrl) ogUrl.setAttribute('content', currentUrl);
+      if (ogTitle) ogTitle.setAttribute('content', meta.title);
+      if (ogDesc) ogDesc.setAttribute('content', meta.profile || meta.title);
+      
+      // 更新 Twitter Card
+      const twitterTitle = document.getElementById('twitterTitle');
+      const twitterDesc = document.getElementById('twitterDesc');
+      if (twitterTitle) twitterTitle.setAttribute('content', meta.title);
+      if (twitterDesc) twitterDesc.setAttribute('content', meta.profile || meta.title);
+      
+      // 注入结构化数据
+      const schemaEl = document.getElementById('articleSchema');
+      if (schemaEl) {
+        const schema = {
+          "@context": "https://schema.org",
+          "@type": "NewsArticle",
+          "headline": meta.title,
+          "description": meta.profile || meta.title,
+          "url": currentUrl,
+          "datePublished": meta.date,
+          "author": {
+            "@type": "Organization",
+            "name": meta.author || "村庄改造吧"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "村庄改造吧",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://realsuqingqing.github.io/assets/images/icons/common_123_icon.png"
+            }
+          }
+        };
+        schemaEl.textContent = JSON.stringify(schema);
       }
     }
 
