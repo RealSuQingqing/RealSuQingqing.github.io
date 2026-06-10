@@ -35,7 +35,7 @@
 
         // 处理每条新闻的 ID 和图片路径
         this.allNews.forEach(item => {
-          item.id = item.file.replace('.json', '');
+          item.id = item.file.replace('.md', '');
           item.image = this.contentPath + item.id + '.png';
         });
 

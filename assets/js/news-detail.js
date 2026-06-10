@@ -234,7 +234,7 @@
         const newsList = indexData.news || [];
 
         // 查找当前文章
-        const meta = newsList.find(item => item.file.replace('.json', '') === this.articleId);
+        const meta = newsList.find(item => item.file.replace('.md', '') === this.articleId);
         if (!meta) {
           throw new Error(`文章 "${this.articleId}" 不存在或已被删除。`);
         }
