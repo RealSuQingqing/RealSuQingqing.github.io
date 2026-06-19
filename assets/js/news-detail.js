@@ -7,6 +7,24 @@
 (function () {
   'use strict';
 
+  // 生成缩略图路径（将任意扩展名替换为 _thumb.webp）
+  function getThumbUrl(url) {
+    var base = url.split('?')[0];
+    var lastDot = base.lastIndexOf('.');
+    if (lastDot === -1) return base + '_thumb.webp';
+    return base.substring(0, lastDot) + '_thumb.webp';
+  }
+
+  // 构建渐进加载图片的 HTML
+  function buildProgressiveImage(url, alt, centered) {
+    var thumb = getThumbUrl(url);
+    var wrapperStart = centered ? '<div class="img-progressive" style="text-align:center;">' : '<div class="img-progressive">';
+    return wrapperStart +
+      '<img src="' + thumb + '" class="img-progressive__thumb" alt="' + alt + '" onerror="this.style.display=\'none\'">' +
+      '<img src="' + url + '" class="img-progressive__hd" alt="' + alt + '" loading="lazy" onload="this.parentElement.classList.add(\'img-progressive--loaded\')" onerror="this.style.display=\'none\'">' +
+      '</div>';
+  }
+
   // 简单的 Markdown 到 HTML 转换器
   class MarkdownParser {
     parse(md) {
@@ -155,26 +173,23 @@
       text = text.replace(/!!\[([^\]]*)\]\(([^)]+)\)/g, function(match, alt, url) {
         // 居中图片语法 !![]()
         if (url.match(/^https?:\/\//)) {
-          return '<div style="text-align:center;"><img src="' + url + '" alt="' + alt + '" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;display:inline-block;"></div>';
+          return buildProgressiveImage(url, alt, true);
         }
-        const resolvedUrl = 'content/' + url;
-        return '<div style="text-align:center;"><img src="' + resolvedUrl + '" alt="' + alt + '" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;display:inline-block;"></div>';
+        return buildProgressiveImage('content/' + url, alt, true);
       });
       text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)\{center\}/g, function(match, alt, url) {
         // 居中图片语法 ![](){center}
         if (url.match(/^https?:\/\//)) {
-          return '<div style="text-align:center;"><img src="' + url + '" alt="' + alt + '" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;display:inline-block;"></div>';
+          return buildProgressiveImage(url, alt, true);
         }
-        const resolvedUrl = 'content/' + url;
-        return '<div style="text-align:center;"><img src="' + resolvedUrl + '" alt="' + alt + '" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;display:inline-block;"></div>';
+        return buildProgressiveImage('content/' + url, alt, true);
       });
       text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, function(match, alt, url) {
         // 普通图片语法 ![]()
         if (url.match(/^https?:\/\//)) {
-          return '<img src="' + url + '" alt="' + alt + '" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;">';
+          return buildProgressiveImage(url, alt, false);
         }
-        const resolvedUrl = 'content/' + url;
-        return '<img src="' + resolvedUrl + '" alt="' + alt + '" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;">';
+        return buildProgressiveImage('content/' + url, alt, false);
       });
 
       // 链接 [text](url)

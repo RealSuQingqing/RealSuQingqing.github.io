@@ -7,6 +7,24 @@
 (function () {
   'use strict';
 
+  // 生成缩略图路径（将任意扩展名替换为 _thumb.webp）
+  function getThumbUrl(url) {
+    var base = url.split('?')[0];
+    var lastDot = base.lastIndexOf('.');
+    if (lastDot === -1) return base + '_thumb.webp';
+    return base.substring(0, lastDot) + '_thumb.webp';
+  }
+
+  // 构建渐进加载图片的 HTML
+  function buildProgressiveImage(url, alt, centered) {
+    var thumb = getThumbUrl(url);
+    var wrapperStart = centered ? '<div class="img-progressive" style="text-align:center;">' : '<div class="img-progressive">';
+    return wrapperStart +
+      '<img src="' + thumb + '" class="img-progressive__thumb" alt="' + alt + '" onerror="this.style.display=\'none\'">' +
+      '<img src="' + url + '" class="img-progressive__hd" alt="' + alt + '" loading="lazy" onload="this.parentElement.classList.add(\'img-progressive--loaded\')" onerror="this.style.display=\'none\'">' +
+      '</div>';
+  }
+
   // 复用 Markdown 解析器
   class MarkdownParser {
     parse(md) {
@@ -139,9 +157,15 @@
       });
 
       // 图片居中语法: !![alt](url) 或 ![alt](url){center}
-      text = text.replace(/!!\[([^\]]*)\]\(([^)]+)\)/g, '<div style="text-align:center;"><img src="$2" alt="$1" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;display:inline-block;"></div>');
-      text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)\{center\}/g, '<div style="text-align:center;"><img src="$2" alt="$1" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;display:inline-block;"></div>');
-      text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%;border-radius:var(--shape-medium);margin:var(--space-4) 0;">');
+      text = text.replace(/!!\[([^\]]*)\]\(([^)]+)\)/g, function(match, alt, url) {
+        return buildProgressiveImage(url, alt, true);
+      });
+      text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)\{center\}/g, function(match, alt, url) {
+        return buildProgressiveImage(url, alt, true);
+      });
+      text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, function(match, alt, url) {
+        return buildProgressiveImage(url, alt, false);
+      });
       text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
       text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
       text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');

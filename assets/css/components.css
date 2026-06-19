@@ -987,6 +987,37 @@
   100% { left: 100%; }
 }
 
+/* ---------- 渐进加载图片 ---------- */
+.img-progressive {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  margin: var(--space-4) 0;
+}
+
+.img-progressive__thumb,
+.img-progressive__hd {
+  max-width: 100%;
+  border-radius: var(--shape-medium);
+  transition: opacity 0.5s ease;
+  display: block;
+}
+
+.img-progressive__hd {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.img-progressive--loaded .img-progressive__hd {
+  opacity: 1;
+}
+
+.img-progressive--loaded .img-progressive__thumb {
+  opacity: 0;
+}
+
 /* ============================================
    13. Responsive
    ============================================ */
