@@ -20,7 +20,7 @@
     var thumb = getThumbUrl(url);
     var wrapperStart = centered ? '<div class="img-progressive" style="text-align:center;">' : '<div class="img-progressive">';
     return wrapperStart +
-      '<img src="' + thumb + '" class="img-progressive__thumb" alt="' + alt + '" onerror="this.style.display=\'none\'">' +
+      '<img src="' + thumb + '" class="img-progressive__thumb" alt="' + alt + '" onerror="this.style.display=\'none\'" onload="this.parentElement.classList.add(\'img-progressive--thumb-loaded\')">' +
       '<img src="' + url + '" class="img-progressive__hd" alt="' + alt + '" loading="lazy" onload="this.parentElement.classList.add(\'img-progressive--loaded\')" onerror="this.style.display=\'none\'">' +
       '</div>';
   }
@@ -372,6 +372,13 @@
       // 为表格添加样式类
       this.contentEl.querySelectorAll('table').forEach(table => {
         table.classList.add('news-detail__table');
+      });
+
+      // 内容渲染完成后添加浮入动画
+      const children = this.contentEl.querySelectorAll(':scope > *');
+      children.forEach(function (child, index) {
+        child.style.animationDelay = (index * 0.06) + 's';
+        child.classList.add('fade-in-up');
       });
 
       // 内容渲染完成后隐藏加载动画

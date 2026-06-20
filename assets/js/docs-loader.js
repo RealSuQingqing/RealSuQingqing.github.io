@@ -20,7 +20,7 @@
     var thumb = getThumbUrl(url);
     var wrapperStart = centered ? '<div class="img-progressive" style="text-align:center;">' : '<div class="img-progressive">';
     return wrapperStart +
-      '<img src="' + thumb + '" class="img-progressive__thumb" alt="' + alt + '" onerror="this.style.display=\'none\'">' +
+      '<img src="' + thumb + '" class="img-progressive__thumb" alt="' + alt + '" onerror="this.style.display=\'none\'" onload="this.parentElement.classList.add(\'img-progressive--thumb-loaded\')">' +
       '<img src="' + url + '" class="img-progressive__hd" alt="' + alt + '" loading="lazy" onload="this.parentElement.classList.add(\'img-progressive--loaded\')" onerror="this.style.display=\'none\'">' +
       '</div>';
   }
@@ -282,7 +282,7 @@
     async loadDocument(page) {
       if (!this.contentEl) return;
 
-      this.contentEl.innerHTML = '<div style="text-align:center;padding:var(--space-10);"><p class="body-large" style="color:var(--md-on-surface-variant);">加载中...</p></div>';
+      this.contentEl.innerHTML = '<div style="text-align:center;padding:var(--space-10);"><div class="md-spinner" style="width:48px;height:48px;margin:0 auto var(--space-4);"></div><p class="body-large" style="color:var(--md-on-surface-variant);">加载中...</p></div>';
 
       try {
         const response = await fetch(this.contentPath + page);
