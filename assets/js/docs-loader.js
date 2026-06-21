@@ -18,11 +18,11 @@
   // 构建渐进加载图片的 HTML
   function buildProgressiveImage(url, alt, centered) {
     var thumb = getThumbUrl(url);
-    var wrapperStart = centered ? '<div class="img-progressive" style="text-align:center;">' : '<div class="img-progressive">';
+    var wrapperStart = centered ? '<div style="text-align:center;"><div class="img-progressive">' : '<div class="img-progressive">';
     return wrapperStart +
       '<img src="' + thumb + '" class="img-progressive__thumb" alt="' + alt + '" onerror="this.style.display=\'none\'" onload="this.parentElement.classList.add(\'img-progressive--thumb-loaded\')">' +
-      '<img src="' + url + '" class="img-progressive__hd" alt="' + alt + '" loading="lazy" onload="this.parentElement.classList.add(\'img-progressive--loaded\')" onerror="this.style.display=\'none\'">' +
-      '</div>';
+      '<img src="' + url + '" class="img-progressive__hd" alt="' + alt + '" loading="lazy" onload="var p=this.parentElement;p.classList.add(\'img-progressive--loaded\');var t=p.querySelector(\'.img-progressive__thumb\');if(!t||t.offsetParent===null){this.style.position=\'relative\';this.style.top=\'auto\';this.style.left=\'auto\';}" onerror="this.style.display=\'none\'">' +
+      (centered ? '</div></div>' : '</div>');
   }
 
   // 复用 Markdown 解析器
@@ -381,11 +381,12 @@
     initScrollAnimations() {
       if (!this.contentEl) return;
 
-      // 获取所有需要动画的元素：p, h2, h3, ul, ol, blockquote, .card--outlined
+      // 获取所有需要动画的元素：p, h2, h3, ul, ol, blockquote, .card--outlined, 图片, 视频
       const animateItems = this.contentEl.querySelectorAll(
         '.docs-markdown p, .docs-markdown h2, .docs-markdown h3, ' +
         '.docs-markdown ul, .docs-markdown ol, .docs-markdown blockquote, ' +
-        '.docs-markdown .card--outlined, .docs-content > h1, .docs-content > .headline-large'
+        '.docs-markdown .card--outlined, .docs-content > h1, .docs-content > .headline-large, ' +
+        '.docs-markdown .img-progressive, .docs-markdown .bili-player-wrap'
       );
 
       // 为每个元素添加动画类并设置递增延迟
@@ -406,8 +407,8 @@
           }
         });
       }, {
-        threshold: 0.1, // 元素10%可见时触发
-        rootMargin: '0px 0px -20px 0px' // 提前20px触发
+        threshold: 0, // 元素刚进入视口即触发
+        rootMargin: '0px 0px 80px 0px' // 视口底部向下扩展80px，元素还没完全进入就开始动画
       });
 
       animateItems.forEach(item => observer.observe(item));

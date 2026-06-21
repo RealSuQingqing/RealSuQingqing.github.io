@@ -670,7 +670,7 @@
   margin: var(--space-8) 0;
 }
 
-.news-detail__content img {
+.news-detail__content img:not(.img-progressive__thumb):not(.img-progressive__hd) {
   max-width: 100%;
   border-radius: var(--shape-medium);
   margin: var(--space-4) 0;
@@ -729,6 +729,9 @@
   text-align: center;
   color: var(--md-on-surface-variant);
   font-size: 13px;
+}
+
+.news-detail__content p:has(> em:only-child) {
   margin-top: calc(var(--space-2) * -1);
   margin-bottom: var(--space-4);
 }
@@ -1013,6 +1016,20 @@
   font-style: italic;
 }
 
+/* 图片/视频解说词（整段只有斜体），贴紧上方媒体，与下文保持段落间距 */
+.docs-markdown p em:only-child {
+  display: block;
+  text-align: center;
+  color: var(--md-on-surface-variant);
+  font-size: 13px;
+}
+
+/* 负 margin 必须加在 <p> 上，因为 .img-progressive 是 inline-block 不参与块级 margin 折叠 */
+.docs-markdown p:has(> em:only-child) {
+  margin-top: calc(var(--space-2) * -1);
+  margin-bottom: var(--space-4);
+}
+
 .docs-markdown code {
   background-color: var(--md-surface-variant);
   padding: 2px 6px;
@@ -1024,6 +1041,7 @@
 .docs-markdown hr {
   border: none;
   border-top: 1px solid var(--md-outline-variant);
+  margin: var(--space-8) 0;
 }
 
 /* ---------- 文档段落入场动画 ---------- */
@@ -1038,7 +1056,7 @@
   transform: translateY(0);
 }
 
-.docs-markdown img {
+.docs-markdown img:not(.img-progressive__thumb):not(.img-progressive__hd) {
   max-width: 100%;
   border-radius: var(--shape-medium);
   margin: var(--space-4) 0;

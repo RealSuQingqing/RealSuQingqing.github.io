@@ -1016,12 +1016,14 @@
   z-index: 1;
 }
 
-.img-progressive--thumb-loaded {
+.img-progressive--thumb-loaded,
+.img-progressive--loaded {
   min-height: auto;
   background: none;
 }
 
-.img-progressive--thumb-loaded::before {
+.img-progressive--thumb-loaded::before,
+.img-progressive--loaded::before {
   display: none;
 }
 

@@ -18,11 +18,11 @@
   // 构建渐进加载图片的 HTML
   function buildProgressiveImage(url, alt, centered) {
     var thumb = getThumbUrl(url);
-    var wrapperStart = centered ? '<div class="img-progressive" style="text-align:center;">' : '<div class="img-progressive">';
+    var wrapperStart = centered ? '<div style="text-align:center;"><div class="img-progressive">' : '<div class="img-progressive">';
     return wrapperStart +
       '<img src="' + thumb + '" class="img-progressive__thumb" alt="' + alt + '" onerror="this.style.display=\'none\'" onload="this.parentElement.classList.add(\'img-progressive--thumb-loaded\')">' +
-      '<img src="' + url + '" class="img-progressive__hd" alt="' + alt + '" loading="lazy" onload="this.parentElement.classList.add(\'img-progressive--loaded\')" onerror="this.style.display=\'none\'">' +
-      '</div>';
+      '<img src="' + url + '" class="img-progressive__hd" alt="' + alt + '" loading="lazy" onload="var p=this.parentElement;p.classList.add(\'img-progressive--loaded\');var t=p.querySelector(\'.img-progressive__thumb\');if(!t||t.offsetParent===null){this.style.position=\'relative\';this.style.top=\'auto\';this.style.left=\'auto\';}" onerror="this.style.display=\'none\'">' +
+      (centered ? '</div></div>' : '</div>');
   }
 
   // 简单的 Markdown 到 HTML 转换器
@@ -379,6 +379,12 @@
       children.forEach(function (child, index) {
         child.style.animationDelay = (index * 0.06) + 's';
         child.classList.add('fade-in-up');
+      });
+
+      // 图片和视频也参与浮入动画
+      const mediaItems = this.contentEl.querySelectorAll('.img-progressive, .bili-player-wrap');
+      mediaItems.forEach(function (item) {
+        item.classList.add('fade-in-up');
       });
 
       // 内容渲染完成后隐藏加载动画
