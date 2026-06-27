@@ -1,4 +1,4 @@
-!![images/gwsd_4_01.webp](images/gwsd_3_01.webp)
+!![images/gwsd_4_01.webp](images/gwsd_4_01.webp)
 
 !![images/gwsd_4_02.webp](images/gwsd_4_02.webp)
 
