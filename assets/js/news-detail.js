@@ -33,19 +33,47 @@
       let html = '';
       let inList = false;
       let listType = '';
+      let inBlockquote = false;
+      let blockquoteLines = [];
 
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         const trimmed = line.trim();
 
-        // 空行：关闭列表
+        // 引用块
+        const blockquoteMatch = trimmed.match(/^>(.*)$/);
+        if (blockquoteMatch) {
+          if (inList) {
+            html += listType === 'ul' ? '</ul>' : '</ol>';
+            inList = false;
+            listType = '';
+          }
+          if (!inBlockquote) {
+            inBlockquote = true;
+            blockquoteLines = [];
+          }
+          blockquoteLines.push(blockquoteMatch[1].trim());
+          continue;
+        }
+
+        // 空行：关闭列表；仍在引用块内则作为段落分隔
         if (trimmed === '') {
           if (inList) {
             html += listType === 'ul' ? '</ul>' : '</ol>';
             inList = false;
             listType = '';
           }
+          if (inBlockquote) {
+            blockquoteLines.push('');
+          }
           continue;
+        }
+
+        // 退出引用块
+        if (inBlockquote) {
+          html += this.renderBlockquote(blockquoteLines);
+          inBlockquote = false;
+          blockquoteLines = [];
         }
 
         // 标题
@@ -144,8 +172,34 @@
       if (html.includes('<thead>') && html.endsWith('</tbody>') === false && html.endsWith('</table>') === false) {
         html += '</tbody></table>';
       }
+      // 关闭未闭合的引用块
+      if (inBlockquote) {
+        html += this.renderBlockquote(blockquoteLines);
+      }
 
       return html;
+    }
+
+    renderBlockquote(lines) {
+      const paragraphs = [];
+      let current = [];
+      lines.forEach(function(line) {
+        if (line === '') {
+          if (current.length) {
+            paragraphs.push(current.join(' '));
+            current = [];
+          }
+        } else {
+          current.push(line);
+        }
+      });
+      if (current.length) {
+        paragraphs.push(current.join(' '));
+      }
+      const content = paragraphs.map(function(p) {
+        return '<p>' + this.inline(p) + '</p>';
+      }, this).join('');
+      return '<blockquote>' + content + '</blockquote>';
     }
 
     inline(text) {

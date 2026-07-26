@@ -33,10 +33,28 @@
       let html = '';
       let inList = false;
       let listType = '';
+      let inBlockquote = false;
+      let blockquoteLines = [];
 
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         const trimmed = line.trim();
+
+        // 引用块
+        const blockquoteMatch = trimmed.match(/^>(.*)$/);
+        if (blockquoteMatch) {
+          if (inList) {
+            html += listType === 'ul' ? '</ul>' : '</ol>';
+            inList = false;
+            listType = '';
+          }
+          if (!inBlockquote) {
+            inBlockquote = true;
+            blockquoteLines = [];
+          }
+          blockquoteLines.push(blockquoteMatch[1].trim());
+          continue;
+        }
 
         if (trimmed === '') {
           if (inList) {
@@ -44,7 +62,16 @@
             inList = false;
             listType = '';
           }
+          if (inBlockquote) {
+            blockquoteLines.push('');
+          }
           continue;
+        }
+
+        if (inBlockquote) {
+          html += this.renderBlockquote(blockquoteLines);
+          inBlockquote = false;
+          blockquoteLines = [];
         }
 
         const h3Match = trimmed.match(/^### (.+)$/);
@@ -132,8 +159,33 @@
       if (html.includes('<thead>') && html.endsWith('</tbody>') === false && html.endsWith('</table>') === false) {
         html += '</tbody></table>';
       }
+      if (inBlockquote) {
+        html += this.renderBlockquote(blockquoteLines);
+      }
 
       return html;
+    }
+
+    renderBlockquote(lines) {
+      const paragraphs = [];
+      let current = [];
+      lines.forEach(function(line) {
+        if (line === '') {
+          if (current.length) {
+            paragraphs.push(current.join(' '));
+            current = [];
+          }
+        } else {
+          current.push(line);
+        }
+      });
+      if (current.length) {
+        paragraphs.push(current.join(' '));
+      }
+      const content = paragraphs.map(function(p) {
+        return '<p>' + this.inline(p) + '</p>';
+      }, this).join('');
+      return '<blockquote>' + content + '</blockquote>';
     }
 
     inline(text) {
